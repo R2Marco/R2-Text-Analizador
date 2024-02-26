@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Texto</title>
+    <style>
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <textarea id="inputText" placeholder="Escribe algo..." oninput="realizarAnalisis()"></textarea>
+
+    <p>Mayúsculas: <span id="mayusculasCount">0</span></p>
+    <p>Minúsculas: <span id="minusculasCount">0</span></p>
+    <p>Total de Letras: <span id="totalLetrasCount">0</span></p>
+    <p>Total de Palabras: <span id="totalPalabrasCount">0</span></p>
+    <p>Números: <span id="numerosCount">0</span></p>
+    <p>Caracteres Especiales: <span id="especialesCount">0</span></p>
+    <p>Saltos de Línea: <span id="saltosDeLineaCount">0</span></p>
+    <p>Caracteres Únicos: <span id="unicosCount">0</span></p>
+    <p>Texto Revertido: <span id="revertidoText"></span></p>
+
+    <script src="texto.js">
+       
+    </script>
+
+</body>
+</html>
