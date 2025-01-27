@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Texto</title>
+    <style>
+        body {
+            background-color: #1b1b2f; /* Fondo oscuro tipo anime */
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #ff00ff; /* Fluorescent pink */
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            font-size: 48px;
+            margin-bottom: 30px;
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            }
+            100% {
+                text-shadow: 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff;
+            }
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            background-color: #282a36;
+            color: #fff;
+            border: 2px solid #00ff00; /* Fluorescent green */
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: border 0.3s ease;
+            box-shadow: 0 0 5px #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        textarea:focus {
+            border-color: #ff007f; /* Fluorescent pink */
+            box-shadow: 0 0 15px #ff007f;
+        }
+        .result-table {
+            display: table;
+            margin-top: 20px;
+            width: 80%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .result-table .row {
+            display: table-row;
+        }
+        .result-table .row div {
+            display: table-cell;
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+            color: #fff;
+        }
+        .result-table .row:nth-child(odd) {
+            background-color: #3a3a52;
+        }
+        .result-table .row:nth-child(even) {
+            background-color: #4a4a67;
+        }
+        .result-table .row:hover {
+            background-color: #ff00ff;
+            color: #fff;
+            cursor: pointer;
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            0% {
+                background-color: #ff00ff;
+            }
+            100% {
+                background-color: #00bfff; /* Fluorescent blue (celeste) */
+            }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Análisis de Texto</h1>
+    <textarea id="inputText" placeholder="Escribe algo..." oninput="realizarAnalisis()" class="fade-in"></textarea>
+
+    <div class="result-table">
+        <div class="row">
+            <div>Mayúsculas:</div><div id="mayusculasCount">0</div>
+        </div>
+        <div class="row">
+            <div>Minúsculas:</div><div id="minusculasCount">0</div>
+        </div>
+        <div class="row">
+            <div>Total de Letras:</div><div id="totalLetrasCount">0</div>
+        </div>
+        <div class="row">
+            <div>Total de Palabras:</div><div id="totalPalabrasCount">0</div>
+        </div>
+        <div class="row">
+            <div>Números:</div><div id="numerosCount">0</div>
+        </div>
+        <div class="row">
+            <div>Caracteres Especiales:</div><div id="especialesCount">0</div>
+        </div>
+        <div class="row">
+            <div>Saltos de Línea:</div><div id="saltosDeLineaCount">0</div>
+        </div>
+        <div class="row">
+            <div>Caracteres Únicos:</div><div id="unicosCount">0</div>
+        </div>
+        <div class="row">
+            <div>Texto Revertido:</div><div id="revertidoText"></div>
+        </div>
+        <!-- Nuevas funciones -->
+        <div class="row">
+            <div>Caracteres Alfanuméricos:</div><div id="alfanumericosCount">0</div>
+        </div>
+        <div class="row">
+            <div>Palíndromos en el texto:</div><div id="palindromosCount">0</div>
+        </div>
+        <div class="row">
+            <div>Vocales:</div><div id="vocalesCount">0</div>
+        </div>
+        <div class="row">
+            <div>Consonantes:</div><div id="consonantesCount">0</div>
+        </div>
+        <div class="row">
+            <div>Frases Completas:</div><div id="frasesCount">0</div>
+        </div>
+    </div>
+
+    <script>
+        function realizarAnalisis() {
+            const inputText = document.getElementById("inputText").value;
+
+            const mayusculas = inputText.replace(/[^A-Z]/g, "").length;
+            const minusculas = inputText.replace(/[^a-z]/g, "").length;
+            const totalLetras = inputText.replace(/[^a-zA-Z]/g, "").length;
+            const totalPalabras = inputText.split(/\s+/).filter(Boolean).length;
+            const numeros = inputText.replace(/[^0-9]/g, "").length;
+            const especiales = inputText.replace(/[a-zA-Z0-9\s]/g, "").length;
+            const saltosDeLinea = (inputText.match(/\n/g) || []).length;
+            const unicos = new Set(inputText.replace(/[\s\n]/g, "").split("").map(char => char.toLowerCase())).size;
+            const revertido = inputText.split("").reverse().join("");
+
+            // Nuevas funciones
+            const alfanumericos = inputText.replace(/[^a-zA-Z0-9]/g, "").length;
+            const palindromos = inputText.split(/\s+/).filter(word => word === word.split("").reverse().join("") && word.length > 1).length;
+            const vocales = (inputText.match(/[aeiouáéíóúAEIOUÁÉÍÓÚ]/g) || []).length;
+            const consonantes = (inputText.match(/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/g) || []).length;
+            const frases = inputText.split(/[.!?]\s+/).filter(Boolean).length;
+
+            document.getElementById("mayusculasCount").textContent = mayusculas;
+            document.getElementById("minusculasCount").textContent = minusculas;
+            document.getElementById("totalLetrasCount").textContent = totalLetras;
+            document.getElementById("totalPalabrasCount").textContent = totalPalabras;
+            document.getElementById("numerosCount").textContent = numeros;
+            document.getElementById("especialesCount").textContent = especiales;
+            document.getElementById("saltosDeLineaCount").textContent = saltosDeLinea;
+            document.getElementById("unicosCount").textContent = unicos;
+            document.getElementById("revertidoText").textContent = revertido;
+
+            // Nuevas funciones
+            document.getElementById("alfanumericosCount").textContent = alfanumericos;
+            document.getElementById("palindromosCount").textContent = palindromos;
+            document.getElementById("vocalesCount").textContent = vocales;
+            document.getElementById("consonantesCount").textContent = consonantes;
+            document.getElementById("frasesCount").textContent = frases;
+        }
+    </script>
+</body>
+</html>
